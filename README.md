@@ -54,3 +54,6 @@ Quick diagnostics (if no data is present on RX):
 
 SAFETY
 This device operates in the infrared (IR) spectrum (≈905–940 nm). Do not point it at eyes or nearby reflective surfaces.
+
+WARNING
+Data reception from the module uses DMA to continuously read measurements without significant utilization of the microcontroller core. This module has a problem when it receives the FUNC_MEAS_CONTINUOUS command. It sends several measurements, then freezes and returns the same measurement over and over. Therefore, continuous measurement should be used with the M01_QuickRead function.
