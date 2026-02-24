@@ -104,25 +104,25 @@ int main(void) {
 	/* USER CODE BEGIN WHILE */
 	uint8_t pc_rx_buffer[1]; // Bufor na 1 znak z PC
 
-	while (1) {
+	while(1) {
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
 		// 1. Obsługa komend z PC (nieblokująca - timeout 1ms)
 		// Sprawdzamy czy coś przyszło na UART2 (USB)
-		if (HAL_UART_Receive(&huart2, pc_rx_buffer, 1, 1) == HAL_OK) {
+		if(HAL_UART_Receive(&huart2, pc_rx_buffer, 1, 1) == HAL_OK) {
 			char c = pc_rx_buffer[0];
 			// Konwersja na wielkie litery (prowizoryczna)
-			if (c >= 'a' && c <= 'z')
+			if(c >= 'a' && c <= 'z')
 				c -= 32;
 
-			if (c == 'Q')
+			if(c == 'Q')
 				M01_QuickRead();
-			else if (c == 'L')
+			else if(c == 'L')
 				M01_LaserOn();
-			else if (c == 'K')
+			else if(c == 'K')
 				M01_LaserOff();
-			else if (c == 'R')
+			else if(c == 'R')
 				M01_Reset();
 		}
 	}
@@ -134,13 +134,12 @@ int main(void) {
  * @retval None
  */
 void SystemClock_Config(void) {
-	RCC_OscInitTypeDef RCC_OscInitStruct = { 0 };
-	RCC_ClkInitTypeDef RCC_ClkInitStruct = { 0 };
+	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
 	/** Configure the main internal regulator output voltage
 	 */
-	if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1)
-			!= HAL_OK) {
+	if(HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK) {
 		Error_Handler();
 	}
 
@@ -157,20 +156,19 @@ void SystemClock_Config(void) {
 	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
 	RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
 	RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
-	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
+	if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
 		Error_Handler();
 	}
 
 	/** Initializes the CPU, AHB and APB buses clocks
 	 */
-	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
-			| RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
 	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
 	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
 	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
 	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK) {
+	if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK) {
 		Error_Handler();
 	}
 }
@@ -187,7 +185,7 @@ void Error_Handler(void) {
 	/* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
-	while (1) {
+	while(1) {
 	}
 	/* USER CODE END Error_Handler_Debug */
 }
